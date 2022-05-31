@@ -1,10 +1,10 @@
 #  This is created by me 
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import re
 
 def index(request):
-    return render(request,'home2.html')
+    return render(request,'home2.html',{'flag' : 0})
 
 
 def output(request):
@@ -44,31 +44,8 @@ def output(request):
                 analyzed = analyzed + myText[i]
         op.append("Removed Extra spaces")
         myText = analyzed
-
-    params = {'analyzed_text' : myText, 'operation' : operation, 'op' : op}
-
+    # return render(request,'output.html',params)
+    flag = 1
+    params = {'analyzed_text' : myText, 'operation' : operation, 'op' : op, 'flag' : flag}
     return render(request,'output.html',params)
-
-
-
-
-def analyze(request):
-    #Get the text
-    djtext = request.POST.get('text', 'default')
-
-    # Check checkbox values
-    removepunc = request.POST.get('removepunc', 'off')
-    fullcaps = request.POST.get('fullcaps', 'off')
-    newlineremover = request.POST.get('newlineremover', 'off')
-    extraspaceremover = request.POST.get('extraspaceremover', 'off')
-    numberremover = request.POST.get('numberremover','off')
-
-
-
-
-
-    
-    if(removepunc != "on" and newlineremover!="on" and extraspaceremover!="on" and fullcaps!="on" and numberremover != "on"):
-        return HttpResponse("please select any operation and try again")
-
-    return render(request, 'analyze.html', params)
+    # return redirect('https://www.google.com/')
